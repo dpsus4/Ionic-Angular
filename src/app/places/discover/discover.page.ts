@@ -10,6 +10,7 @@ export class DiscoverPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('Discover');
   }
 
 }

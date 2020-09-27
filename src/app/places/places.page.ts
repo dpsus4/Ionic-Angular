@@ -10,6 +10,7 @@ export class PlacesPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('Places');
   }
 
 }
