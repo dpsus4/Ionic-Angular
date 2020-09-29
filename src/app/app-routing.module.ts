@@ -23,7 +23,7 @@ const routes: Routes = [
         path: ':recipeId',
         loadChildren: () => import('./recipes/recipe-detail/recipe-detail.module').then(m => m.RecipeDetailPageModule)
       }
-    ],
+    ]
   },
   {
     path: 'auth',
@@ -31,17 +31,18 @@ const routes: Routes = [
   },
   {
     path: 'places',
-    loadChildren: () => import('./places/places.module').then( m => m.PlacesPageModule)
+    loadChildren: './places/places.module#PlacesPageModule'
+    // loadChildren: () => import('./places/places.module').then( m => m.PlacesPageModule)
   },
   {
     path: 'bookings',
     loadChildren: () => import('./bookings/bookings.module').then( m => m.BookingsPageModule)
-  },
+  }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })
