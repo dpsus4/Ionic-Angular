@@ -4,8 +4,19 @@ import { PlacesPage } from './places.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: PlacesPage
+    path: 'tabs',
+    component: PlacesPage,
+    children: [
+      {
+        path: 'discover',
+        children: [
+          {
+            path: '',
+            loadChildren: './'
+          }
+        ]
+      }
+    ]
   }
 ];
 
