@@ -26,4 +26,8 @@ export class AppComponent {
 
     console.log('App');
   }
+
+  onLogout() {
+    
+  }
 }
