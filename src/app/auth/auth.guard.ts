@@ -6,7 +6,7 @@ import {
   UrlTree,
   CanLoad,
   Route,
-  UrlSegment,, Router
+  UrlSegment, Router
 } from "@angular/router";
 import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
