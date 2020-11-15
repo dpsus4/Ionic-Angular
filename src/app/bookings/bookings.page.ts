@@ -11,16 +11,23 @@ import { BookingService } from "./booking.service";
 })
 export class BookingsPage implements OnInit, OnDestroy {
   loadedBookings: Booking[];
+  isLoading = false;
   private bookingSub: Subscription;
   private loadingCtrl: LoadingController;
 
   constructor(private bookingService: BookingService) {}
 
-  ngOnInit() { 
+  ngOnInit() {
     this.bookingSub = this.bookingService.bookings.subscribe((bookings) => {
       this.loadedBookings = bookings;
     });
     // this.loadedBookings = this.bookingService.bookings;
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.bookingService.fetchBookings().subscribe();
+    this.isLoading = false;
   }
 
   onCancelBooking(bookingId: string, slidingEl: IonItemSliding) {
