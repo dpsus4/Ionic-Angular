@@ -9,6 +9,8 @@ import {
 import { ModalController } from "@ionic/angular";
 import { promise } from "protractor";
 
+import {environment} from "../../../environments/environment"
+
 @Component({
   selector: "app-map-modal",
   templateUrl: "./map-modal.component.html",
