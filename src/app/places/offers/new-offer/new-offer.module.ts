@@ -8,6 +8,7 @@ import { NewOfferPageRoutingModule } from './new-offer-routing.module';
 
 import { NewOfferPage } from './new-offer.page';
 import { SharedModule } from 'src/app/shared/pickers/shared.module';
+import { ImagePickerComponent } from 'src/app/shared/pickers/image-picker/image-picker.component';
 
 @NgModule({
   imports: [
