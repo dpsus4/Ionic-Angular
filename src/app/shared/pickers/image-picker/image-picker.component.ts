@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
   Output,
+  Input,
   EventEmitter,
   ViewChild,
   ElementRef,
@@ -22,6 +23,7 @@ import { Platform } from "@ionic/angular";
 export class ImagePickerComponent implements OnInit {
   @ViewChild("filePicker") filePickerRef: ElementRef<HTMLInputElement>;
   @Output() imagePick = new EventEmitter<string | File>();
+  @Input() showPreview = false;
   selectedImage: string;
   usePicker = false;
 
@@ -63,6 +65,11 @@ export class ImagePickerComponent implements OnInit {
       })
       .catch((error) => {
         console.log(error);
+
+        if (this.usePicker) {
+          this.filePickerRef.nativeElement.click();
+        }
+
         return false;
       });
   }
@@ -83,6 +90,4 @@ export class ImagePickerComponent implements OnInit {
 
     fr.readAsDataURL(pickedFile);
   }
-
-  
 }
