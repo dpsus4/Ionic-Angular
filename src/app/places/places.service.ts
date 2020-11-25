@@ -4,7 +4,7 @@ import { AuthService } from "../auth/auth.service";
 import { Place } from "./place.model";
 import { take, map, tap, delay, switchMap } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
-import { PlaceLocation } from './location.model';
+import { PlaceLocation } from "./location.model";
 
 interface PlaceData {
   availableFrom: string;
@@ -14,7 +14,7 @@ interface PlaceData {
   price: number;
   title: string;
   userId: string;
-  location: PlaceLocation
+  location: PlaceLocation;
 }
 
 @Injectable({
@@ -98,6 +98,17 @@ export class PlacesService {
       );
   }
 
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+
+    uploadData.append("image", image);
+
+    return this.http.post<{ imageUrl: string; imagePath: string }>(
+      "",
+      uploadData
+    );
+  }
+
   addPlace(
     title: string,
     description: string,
@@ -105,7 +116,7 @@ export class PlacesService {
     dateFrom: Date,
     dateTo: Date,
     location: PlaceLocation,
-
+    imageUrl: string
   ) {
     let generatedId: string;
     const newPlace = new Place(
