@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AlertController, LoadingController } from "@ionic/angular";
-import { AuthService } from "./auth.service";
+import { Observable } from "rxjs";
+import { AuthService, AuthResponseData } from "./auth.service";
 
 @Component({
   selector: "app-auth",
@@ -24,11 +25,16 @@ export class AuthPage implements OnInit {
 
   authenticate(email: string, password: string) {
     this.isLoading = true;
-    this.authService.login();
     this.loadingCtrl
       .create({ keyboardClose: true, message: "Logging in..." })
       .then((loadingEl) => {
         loadingEl.present();
+        let authObs: Observable<AuthResponseData>;
+
+        if (this.isLogin) {
+          authObs = this.authService.login(email, password);
+        } else {
+        }
 
         this.authService.signup(email, password).subscribe(
           (resData) => {
@@ -46,6 +52,10 @@ export class AuthPage implements OnInit {
 
             if (code === "EMAIL EXISTS") {
               message = "This email address already exists!";
+            } else if (code === "EMAIL_NOT_FOUND") {
+              message = "";
+            } else if (code === "INVALID_PASSWORD") {
+              message = "This password is not correct";
             }
 
             this.showAlert(message);

@@ -119,40 +119,48 @@ export class PlacesService {
     imageUrl: string
   ) {
     let generatedId: string;
-    const newPlace = new Place(
-      Math.random().toString(),
-      title,
-      description,
-      "https://media.gettyimages.com/photos/aerial-view-of-lower-manhattan-new-york-picture-id946087016?k=6&m=946087016&s=612x612&w=0&h=FPq454ti8ZKPiMzyDPJ_A4BNQaN-2olcfg4TYgMFR1w=",
-      price,
-      dateFrom,
-      dateTo,
-      this.authService.userId,
-      location
-    );
-
-    return this.http
-      .post<{ name: string }>(
-        "https://ionic-angular-b73ed.firebaseio.com/offered-places.json",
-        {
-          ...newPlace,
-          id: null,
+    let newPlace: Place;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error("No user found!");
         }
-      )
-      .pipe(
-        switchMap((resData) => {
-          generatedId = resData.name;
-          return this.places;
-        }),
-        take(1),
-        tap((places) => {
-          newPlace.id = generatedId;
-          this._places.next(places.concat(newPlace));
-        })
-        // tap((resData) => {
-        //   console.log(resData);
-        // })
-      );
+
+        newPlace = new Place(
+          Math.random().toString(),
+          title,
+          description,
+          "https://media.gettyimages.com/photos/aerial-view-of-lower-manhattan-new-york-picture-id946087016?k=6&m=946087016&s=612x612&w=0&h=FPq454ti8ZKPiMzyDPJ_A4BNQaN-2olcfg4TYgMFR1w=",
+          price,
+          dateFrom,
+          dateTo,
+          userId,
+          location
+        );
+
+        return this.http.post<{ name: string }>(
+          "https://ionic-angular-b73ed.firebaseio.com/offered-places.json",
+          {
+            ...newPlace,
+            id: null,
+          }
+        );
+      }),
+
+      switchMap((resData) => {
+        generatedId = resData.name;
+        return this.places;
+      }),
+      take(1),
+      tap((places) => {
+        newPlace.id = generatedId;
+        this._places.next(places.concat(newPlace));
+      })
+      // tap((resData) => {
+      //   console.log(resData);
+      // })
+    );
 
     // return this.places.pipe(
     //   take(1),
